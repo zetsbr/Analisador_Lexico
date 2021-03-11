@@ -27,7 +27,6 @@ while(i<len(texto)):
             se='erro na linha {}: caracter invalido em {}'.format(linha,texto[i])
             erro.append(se)
             print(texto[i] + ' - ' + 'erro')
-            token=''
         else:
             token=token+texto[i]
             if((texto[i+1] in separador) or (texto[i+1] in operador) or (texto[i] in separador) or (texto[i] in relacao) or (texto[i] in operador) or (texto[i+1]+texto[i+2] in separador) or (texto[i+1]+texto[i+2] in relacao) or (texto[i+1] in relacao) or (not(texto[i+1] in alfabeto) and not(texto[i+1] in reservado))):
@@ -37,43 +36,36 @@ while(i<len(texto)):
                         token=token+texto[i]
                     print(token + ' - ' + token)
                     retorno=token
-                    token=''
                 elif(token=='end.'):
                     print('end - end')
                     print('. - .')
-                    token=''
                 elif(list(filter(token.startswith,num))!= []):
                     if(not(any(l in [c for c in token] for l in ch))):
                         if('.' in token):
                             if(not(token.endswith('.'))):
                                 print(token + ' - ' + 'real')
                                 retorno='numero_real'
-                                token=''
                             else:
                                 se='erro na linha {}: numero real incompleto em {}'.format(linha,token)
                                 erro.append(se)
                                 print(token + ' - ' + 'erro')
-                                token=''
                         else:
                             print(token + ' - ' + 'inteiro')
                             retorno='numero_int'
-                            token=''
                     else:
                         se='erro na linha {}: numero mal formado em {}'.format(linha,token)
                         erro.append(se)
                         print(token + ' - ' + 'erro')
-                        token=''
                 else:
                     if(not('.' in token)):
                         print(token + ' - ' + 'identificador')
                         retorno='ident'
-                        token=''
                     else:
                         se='erro na linha {}:identificador mal formado em {}'.format(linha,token)
                         erro.append(se)
                         print(token + ' - ' + 'erro')
-                        token=''
             
+                token=''
     i=i+1
 print('\nerros: ')
 print(erro)
