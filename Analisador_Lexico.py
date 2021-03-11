@@ -4,7 +4,7 @@ num=['1','2','3','4','5','6','7','8','9','0','.']
 ch=['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']
 alfabeto=ch+num
 operador=['+','-','*','/']
-cmd=['read','write','if','then','else','while','do','begin','end','procedure','program','real','integer','var']
+cmd=['read','write','if','then','else','while','do','begin','end','.','procedure','program','real','integer','var']
 separador=[' ','(',')',',',';',':=',':','\n','{','}']
 relacao=['=','<>','>=','<=','>','<']
 reservado=operador+cmd+separador+relacao
@@ -15,6 +15,7 @@ txt=open('txt.txt')
 texto=txt.read()
 texto=texto+'\n'
 i=0
+retorno=''
 while(i<len(texto)):
     if(texto[i]=='\n'):
         linha=linha+1
@@ -32,8 +33,9 @@ while(i<len(texto)):
             if((texto[i+1] in separador) or (texto[i+1] in operador) or (texto[i] in separador) or (texto[i] in relacao) or (texto[i] in operador) or (texto[i+1]+texto[i+2] in separador) or (texto[i+1]+texto[i+2] in relacao) or (texto[i+1] in relacao) or (not(texto[i+1] in alfabeto) and not(texto[i+1] in reservado))):
                 if(token in reservado):
                     print(token + ' - ' + token)
+                    retorno=token
                     token=''
-                elif((i==len(texto)-2) and (token=='end.')):
+                elif(token=='end.'):
                     print('end - end')
                     print('. - .')
                     token=''
@@ -42,6 +44,7 @@ while(i<len(texto)):
                         if('.' in token):
                             if(not(token.endswith('.'))):
                                 print(token + ' - ' + 'real')
+                                retorno='numero_real'
                                 token=''
                             else:
                                 se='erro na linha {}: numero real incompleto em {}'.format(linha,token)
@@ -50,6 +53,7 @@ while(i<len(texto)):
                                 token=''
                         else:
                             print(token + ' - ' + 'inteiro')
+                            retorno='numero_int'
                             token=''
                     else:
                         se='erro na linha {}: numero mal formado em {}'.format(linha,token)
@@ -59,6 +63,7 @@ while(i<len(texto)):
                 else:
                     if(not('.' in token)):
                         print(token + ' - ' + 'identificador')
+                        retorno='ident'
                         token=''
                     else:
                         se='erro na linha {}:identificador mal formado em {}'.format(linha,token)
